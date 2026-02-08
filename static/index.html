@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Document Analyzer | AI-Powered Analysis</title>
+    <meta name="description"
+        content="Upload financial documents for comprehensive AI-powered analysis using multi-agent intelligent systems">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Background Gradient -->
+    <div class="gradient-background"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="40" height="40" rx="10" fill="url(#gradient)" />
+                    <path d="M20 10L28 15V25L20 30L12 25V15L20 10Z" stroke="white" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M20 20L28 15M20 20L12 15M20 20V30" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#8B5CF6" />
+                            <stop offset="1" stop-color="#EC4899" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div>
+                    <h1>Financial Document Analyzer</h1>
+                    <p class="subtitle">AI-Powered Multi-Agent Analysis</p>
+                </div>
+            </div>
+            <div class="status-indicator" id="apiStatus">
+                <span class="status-dot"></span>
+                <span class="status-text">Checking API...</span>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h2 class="hero-title">Analyze Financial Documents with AI</h2>
+            <p class="hero-description">Upload your financial documents and get comprehensive insights from our
+                multi-agent AI system including document verification, financial analysis, investment advice, and risk
+                assessment.</p>
+        </section>
+
+        <!-- Upload Section -->
+        <section class="upload-section glass-card">
+            <h3 class="section-title">Upload Document</h3>
+
+            <div class="upload-zone" id="uploadZone">
+                <svg class="upload-icon" width="64" height="64" viewBox="0 0 64 64" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M32 16V48M32 16L24 24M32 16L40 24M16 48H48" stroke="currentColor" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path
+                        d="M52 52H12C10.8954 52 10 51.1046 10 50V14C10 12.8954 10.8954 12 12 12H28L36 20H52C53.1046 20 54 20.8954 54 22V50C54 51.1046 53.1046 52 52 52Z"
+                        stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <p class="upload-text">Drag & drop your PDF file here</p>
+                <p class="upload-subtext">or click to browse</p>
+                <input type="file" id="fileInput" accept=".pdf" hidden>
+            </div>
+
+            <div class="file-info" id="fileInfo" style="display: none;">
+                <div class="file-details">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                    <div>
+                        <p class="file-name" id="fileName"></p>
+                        <p class="file-size" id="fileSize"></p>
+                    </div>
+                </div>
+                <button class="btn-remove" id="btnRemove">×</button>
+            </div>
+
+            <div class="query-input-group">
+                <label for="queryInput" class="input-label">Analysis Query (Optional)</label>
+                <textarea id="queryInput" class="query-input"
+                    placeholder="Enter your specific analysis question (e.g., 'What are the key financial risks?' or 'Evaluate investment potential')"
+                    rows="3"></textarea>
+            </div>
+
+            <button class="btn-primary" id="btnAnalyze" disabled>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 3V17M3 10H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                Analyze Document
+            </button>
+        </section>
+
+        <!-- Queue Stats Section -->
+        <section class="queue-stats glass-card" id="queueStats">
+            <h3 class="section-title">Queue Statistics</h3>
+            <div class="stats-grid stats-grid-3">
+                <div class="stat-item">
+                    <div class="stat-value" id="queuedJobs">--</div>
+                    <div class="stat-label">Queued Jobs</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="activeWorkers">--</div>
+                    <div class="stat-label">Active Workers</div>
+                </div>
+                <div class="stat-item stat-item-runtime">
+                    <div class="stat-value" id="currentRuntime">--</div>
+                    <div class="stat-label">Current Runtime</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Job Status Section -->
+        <section class="job-status glass-card" id="jobStatusSection" style="display: none;">
+            <h3 class="section-title">Job Status</h3>
+            <div class="job-info">
+                <div class="job-detail">
+                    <span class="job-label">Job ID:</span>
+                    <code class="job-id" id="jobId"></code>
+                </div>
+                <div class="job-detail">
+                    <span class="job-label">Status:</span>
+                    <span class="job-status-badge" id="jobStatus">Initializing...</span>
+                </div>
+                <div class="job-detail">
+                    <span class="job-label">Elapsed Time:</span>
+                    <span id="elapsedTime">0s</span>
+                </div>
+            </div>
+            <div class="job-timestamps" id="jobTimestamps" style="display: none;">
+                <div class="timestamp-item">
+                    <span class="timestamp-label">Queued:</span>
+                    <span class="timestamp-value" id="createdAt">--</span>
+                </div>
+                <div class="timestamp-item">
+                    <span class="timestamp-label">Started:</span>
+                    <span class="timestamp-value" id="startedAt">--</span>
+                </div>
+                <div class="timestamp-item">
+                    <span class="timestamp-label">Ended:</span>
+                    <span class="timestamp-value" id="endedAt">--</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </section>
+
+        <!-- OUTPUT Section -->
+        <section class="results-section glass-card" id="resultsSection" style="display: none;">
+            <div class="results-header">
+                <h3 class="section-title output-title">
+                    <svg class="output-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    OUTPUT
+                </h3>
+                <button class="btn-secondary" id="btnDownload">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 1V11M8 11L11 8M8 11L5 8M1 15H15" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    Download
+                </button>
+            </div>
+            <div class="job-metadata" id="jobMetadata"></div>
+            <div class="results-content" id="resultsContent"></div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by CrewAI Multi-Agent System | © 2026 Financial Document Analyzer</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
