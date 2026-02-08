@@ -233,28 +233,6 @@ Upload a PDF document for analysis.
   - `file` (required): PDF file to analyze
   - `query` (optional): Custom analysis query (default: "Analyze this financial document for investment insights")
 
-**Example:**
-```bash
-curl -X POST "http://localhost:8000/analyze" \
-  -F "file=@financial_report.pdf" \
-  -F "query=What are the key investment opportunities?"
-```
-
-**Response:**
-```json
-{
-  "job_id": "8a558318-87aa-46c0-a44a-04872dda04c1",
-  "status": "queued",
-  "message": "Analysis job queued successfully",
-  "query": "What are the key investment opportunities?",
-  "file_name": "financial_report.pdf",
-  "endpoints": {
-    "status": "/job/8a558318-87aa-46c0-a44a-04872dda04c1/status",
-    "result": "/job/8a558318-87aa-46c0-a44a-04872dda04c1/result"
-  }
-}
-```
-
 ---
 
 #### 3. Get Job Status
@@ -336,60 +314,7 @@ curl http://localhost:8000/job/8a558318-87aa-46c0-a44a-04872dda04c1/result
 }
 ```
 
-**Response (Failed):**
-```json
-{
-  "job_id": "8a558318-87aa-46c0-a44a-04872dda04c1",
-  "status": "failed",
-  "error": "Failed to process PDF: Invalid file format"
-}
-```
-
-**Response (Not Complete):**
-```json
-{
-  "job_id": "8a558318-87aa-46c0-a44a-04872dda04c1",
-  "status": "processing",
-  "message": "Job not yet complete"
-}
-```
-
----
-
-#### 5. Cancel Job
-**DELETE** `/job/{job_id}`
-
-Cancel a queued job (only works if job hasn't started).
-
-**Parameters:**
-- `job_id` (path): Unique job identifier
-
-**Example:**
-```bash
-curl -X DELETE http://localhost:8000/job/8a558318-87aa-46c0-a44a-04872dda04c1
-```
-
-**Response (Cancelled):**
-```json
-{
-  "job_id": "8a558318-87aa-46c0-a44a-04872dda04c1",
-  "status": "cancelled",
-  "message": "Job cancelled successfully"
-}
-```
-
-**Response (Cannot Cancel):**
-```json
-{
-  "job_id": "8a558318-87aa-46c0-a44a-04872dda04c1",
-  "status": "not_cancelled",
-  "message": "Job cannot be cancelled (already started or completed)"
-}
-```
-
----
-
-#### 6. Queue Statistics
+#### 5. Queue Statistics
 **GET** `/queue/stats`
 
 Get current queue statistics and worker information.
@@ -411,41 +336,6 @@ curl http://localhost:8000/queue/stats
 }
 ```
 
----
-
-### Error Responses
-
-All endpoints may return error responses in the following format:
-
-**400 Bad Request:**
-```json
-{
-  "detail": "Invalid file format. Please upload a PDF file."
-}
-```
-
-**404 Not Found:**
-```json
-{
-  "detail": "Job not found: invalid_job_id"
-}
-```
-
-**500 Internal Server Error:**
-```json
-{
-  "detail": "Error processing request: <error message>"
-}
-```
-
-**503 Service Unavailable:**
-```json
-{
-  "detail": "Queue service unavailable. Please ensure Redis is running."
-}
-```
-
----
 
 ## 🔌 Redis and MongoDB Integration
 
