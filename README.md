@@ -523,3 +523,6 @@ The **Financial Document Analyzer** is a production-ready, scalable system that 
 ✅ **Scalable Design** - Horizontal scaling with multiple workers  
 
 **Built with ❤️ using CrewAI, FastAPI, Redis, and MongoDB**
+
+
+![UI](images/UI_Image.png)
